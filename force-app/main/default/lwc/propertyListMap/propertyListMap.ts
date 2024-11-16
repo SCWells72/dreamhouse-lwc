@@ -1,6 +1,5 @@
 // noinspection JSClassNamingConvention
 
-// TODO: What is "L"?
 /* global L */
 import { LightningElement, wire } from 'lwc';
 import {
@@ -109,13 +108,14 @@ export default class PropertyListMap extends LightningElement {
 
             // Load resource files
             await Promise.all([
+                // TODO: Is there any way to have "L" from this script represented here in a more first-class manner?
                 loadScript(this, `${LEAFLET}/leaflet.js`),
                 loadStyle(this, `${LEAFLET}/leaflet.css`)
             ]);
 
             // Configure map
             const mapElement = this.template.querySelector('.map');
-            // @ts-expect-error What is "L"?
+            // @ts-expect-error "L" is from OpenStreetMap
             this.map = L.map(mapElement, {
                 zoomControl: true,
                 tap: false
@@ -123,7 +123,7 @@ export default class PropertyListMap extends LightningElement {
             });
             this.map.setView([42.356045, -71.08565], 13);
             this.map.scrollWheelZoom.disable();
-            // @ts-expect-error What is "L"?
+            // @ts-expect-error "L" is from OpenStreetMap
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '© OpenStreetMap'
@@ -158,7 +158,7 @@ export default class PropertyListMap extends LightningElement {
         }
 
         // Prepare property icon
-        // @ts-expect-error What is "L"?
+        // @ts-expect-error "L" is from OpenStreetMap
         // noinspection JSVoidFunctionReturnValueUsed
         const icon = L.divIcon({
             className: 'my-div-icon',
@@ -179,7 +179,7 @@ export default class PropertyListMap extends LightningElement {
                 property.Location__Longitude__s
             ];
             const tooltipMarkup = this.getTooltipMarkup(property);
-            // @ts-expect-error What is "L"?
+            // @ts-expect-error "L" is from OpenStreetMap
             const marker = L.marker(latLng, { icon });
             marker.propertyId = property.Id;
             marker.on('click', markerClickHandler);
@@ -188,7 +188,7 @@ export default class PropertyListMap extends LightningElement {
         });
 
         // Create a layer with property markers and add it to map
-        // @ts-expect-error What is "L"?
+        // @ts-expect-error "L" is from OpenStreetMap
         this.propertyLayer = L.layerGroup(markers);
         this.propertyLayer.addTo(this.map);
     }
