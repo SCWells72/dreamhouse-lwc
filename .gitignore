@@ -51,4 +51,3 @@ target/
 /.illuminatedCloud/
 **/tsconfig*.json
 **/*.tsbuildinfo
-**/eslint.config.mjs
