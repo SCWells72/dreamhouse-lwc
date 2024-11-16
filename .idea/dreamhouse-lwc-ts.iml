@@ -3,7 +3,7 @@
   <component name="FacetManager">
     <facet type="IlluminatedCloud" name="Illuminated Cloud">
       <configuration>
-        <option name="connectionName" value="dreamhouse-lwc-scw" />
+        <option name="connectionName" value="dreamhouse-lwc-ts" />
         <option name="connectionType" value="SFDX" />
       </configuration>
     </facet>
@@ -18,9 +18,9 @@
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/IlluminatedCloud" />
     </content>
-    <orderEntry type="jdk" jdkName="IlluminatedCloud (dreamhouse-lwc-scw/dreamhouse-lwc-scw)" jdkType="IlluminatedCloud" />
+    <orderEntry type="jdk" jdkName="IlluminatedCloud (dreamhouse-lwc-ts/dreamhouse-lwc-ts)" jdkType="IlluminatedCloud" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="dreamhouse-lwc-scw/lwc_types" level="project" />
+    <orderEntry type="library" name="dreamhouse-lwc-ts/lwc_types" level="project" />
     <orderEntry type="library" name="@types/jest" level="application" />
     <orderEntry type="library" name="@types/node" level="application" />
   </component>

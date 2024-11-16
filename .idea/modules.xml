@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/dreamhouse-lwc-scw.iml" filepath="$PROJECT_DIR$/.idea/dreamhouse-lwc-scw.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/dreamhouse-lwc-ts.iml" filepath="$PROJECT_DIR$/.idea/dreamhouse-lwc-ts.iml" />
     </modules>
   </component>
 </project>
