@@ -1,7 +1,10 @@
+// noinspection DuplicatedCode
+
 import { createElement } from 'lwc';
 import SampleDataImporter from 'c/sampleDataImporter';
 import { ShowToastEventName } from 'lightning/platformShowToastEvent';
 import importSampleData from '@salesforce/apex/SampleDataController.importSampleData';
+import LightningButton from "lightning/button";
 
 // Mocking imperative Apex method call
 jest.mock(
@@ -41,7 +44,7 @@ describe('c-sample-data-importer', () => {
 
     it('fires success event when importSampleData runs successfully', async () => {
         // Assign mock value for resolved Apex promise
-        importSampleData.mockResolvedValue(APEX_OPERATION_SUCCESS);
+        (<jest.MockInstance<any, any>><unknown>importSampleData).mockResolvedValue(APEX_OPERATION_SUCCESS);
 
         // Create initial element
         const element = createElement('c-sample-data-importer', {
@@ -55,7 +58,7 @@ describe('c-sample-data-importer', () => {
         element.addEventListener(ShowToastEventName, handler);
 
         // Select button for executing Apex call
-        const buttonEl = element.shadowRoot.querySelector('lightning-button');
+        const buttonEl = element.shadowRoot.querySelector<LightningButton>('lightning-button');
         buttonEl.click();
 
         // Wait for any asynchronous DOM updates
@@ -72,7 +75,7 @@ describe('c-sample-data-importer', () => {
 
     it('fires error event when importSampleData runs with error', async () => {
         // Assign mock value for resolved Apex promise
-        importSampleData.mockRejectedValue(APEX_OPERATION_ERROR);
+        (<jest.MockInstance<any, any>><unknown>importSampleData).mockRejectedValue(APEX_OPERATION_ERROR);
 
         // Create initial element
         const element = createElement('c-sample-data-importer', {
@@ -86,7 +89,7 @@ describe('c-sample-data-importer', () => {
         element.addEventListener(ShowToastEventName, handler);
 
         // Select button for executing Apex call
-        const buttonEl = element.shadowRoot.querySelector('lightning-button');
+        const buttonEl = element.shadowRoot.querySelector<LightningButton>('lightning-button');
         buttonEl.click();
 
         // Wait for any asynchronous DOM updates

@@ -1,3 +1,5 @@
+// noinspection LocalVariableNamingConventionJS
+
 import { createElement } from 'lwc';
 import ErrorPanel from 'c/errorPanel';
 
@@ -32,7 +34,7 @@ describe('c-error-panel', () => {
         const MESSAGE = 'Errors are bad';
 
         // Create initial element
-        const element = createElement('c-error-panel', {
+        const element = createElement<ErrorPanel>('c-error-panel', {
             is: ErrorPanel
         });
         element.friendlyMessage = MESSAGE;
@@ -61,7 +63,7 @@ describe('c-error-panel', () => {
         const ERROR_MESSAGES_OUTPUT = ['First bad error', 'Second bad error'];
 
         // Create initial element
-        const element = createElement('c-error-panel', {
+        const element = createElement<ErrorPanel>('c-error-panel', {
             is: ErrorPanel
         });
         element.type = 'inlineMessage';
@@ -76,7 +78,7 @@ describe('c-error-panel', () => {
 
         const messageTexts = Array.from(
             element.shadowRoot.querySelectorAll('p')
-        ).map((errorMessage) => (errorMessage = errorMessage.textContent));
+        ).map((errorMessage) => (errorMessage.textContent));
         expect(messageTexts).toEqual(ERROR_MESSAGES_OUTPUT);
     });
 
@@ -86,7 +88,7 @@ describe('c-error-panel', () => {
             { statusText: 'Second bad error' }
         ];
 
-        const element = createElement('c-error-panel', {
+        const element = createElement<ErrorPanel>('c-error-panel', {
             is: ErrorPanel
         });
 
@@ -109,7 +111,7 @@ describe('c-error-panel', () => {
             { statusText: 'Second bad error' }
         ];
 
-        const element = createElement('c-error-panel', {
+        const element = createElement<ErrorPanel>('c-error-panel', {
             is: ErrorPanel
         });
 

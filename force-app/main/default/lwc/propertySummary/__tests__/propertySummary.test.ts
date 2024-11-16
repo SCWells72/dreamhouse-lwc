@@ -1,9 +1,11 @@
 import { createElement } from 'lwc';
 import PropertySummary from 'c/propertySummary';
 import { getRecord } from 'lightning/uiRecordApi';
+import {LdsTestWireAdapter} from "@salesforce/wire-service-jest-util";
+import LightningRecordForm from "lightning/recordForm";
 
 // Realistic property record
-const mockPropertyRecord = require('./data/getRecord.json');
+import mockPropertyRecord from "./data/getRecord.json";
 
 describe('c-property-summary', () => {
     afterEach(() => {
@@ -42,7 +44,7 @@ describe('c-property-summary', () => {
         document.body.appendChild(element);
 
         // Simulate error
-        getRecord.error();
+        (<LdsTestWireAdapter><unknown>getRecord).error();
 
         // Wait for any asynchronous DOM updates
         await flushPromises();
@@ -52,19 +54,19 @@ describe('c-property-summary', () => {
     });
 
     it('renders a lightning-record-form when a property is selected', async () => {
-        const element = createElement('c-property-summary', {
+        const element = createElement<PropertySummary>('c-property-summary', {
             is: PropertySummary
         });
         element.recordId = mockPropertyRecord.id;
         document.body.appendChild(element);
 
         // Simulate property selection
-        getRecord.emit(mockPropertyRecord);
+        (<LdsTestWireAdapter><unknown>getRecord).emit(mockPropertyRecord);
 
         // Wait for any asynchronous DOM updates
         await flushPromises();
 
-        const formEl = element.shadowRoot.querySelector(
+        const formEl = element.shadowRoot.querySelector<LightningRecordForm>(
             'lightning-record-form'
         );
         expect(formEl).not.toBeNull();
@@ -79,7 +81,7 @@ describe('c-property-summary', () => {
         document.body.appendChild(element);
 
         // Simulate property selection
-        getRecord.emit(mockPropertyRecord);
+        (<LdsTestWireAdapter><unknown>getRecord).emit(mockPropertyRecord);
 
         // Wait for any asynchronous DOM updates
         await flushPromises();

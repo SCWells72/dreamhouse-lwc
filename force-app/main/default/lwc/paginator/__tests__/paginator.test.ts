@@ -1,5 +1,8 @@
+// noinspection MagicNumberJS
+
 import { createElement } from 'lwc';
 import Paginator from 'c/paginator';
+import LightningButtonIcon from "lightning/buttonIcon";
 
 describe('c-paginator', () => {
     afterEach(() => {
@@ -17,7 +20,7 @@ describe('c-paginator', () => {
 
     it('sends "next" event on button click', async () => {
         // Create initial element
-        const element = createElement('c-paginator', {
+        const element = createElement<Paginator>('c-paginator', {
             is: Paginator
         });
         // Simulate we are on first page
@@ -34,7 +37,7 @@ describe('c-paginator', () => {
 
         // Click the next(>) button
         const nextButtonEl =
-            element.shadowRoot.querySelector('.right-button-icon');
+            element.shadowRoot.querySelector<LightningButtonIcon>('.right-button-icon');
         nextButtonEl.click();
 
         // Wait for any asynchronous DOM updates
@@ -51,7 +54,7 @@ describe('c-paginator', () => {
 
     it('sends "previous" event on button click', async () => {
         // Create initial element
-        const element = createElement('c-paginator', {
+        const element = createElement<Paginator>('c-paginator', {
             is: Paginator
         });
         // Simulate we are on last page
@@ -68,7 +71,7 @@ describe('c-paginator', () => {
 
         // Click the Previous(<) button
         const prevButtonEl =
-            element.shadowRoot.querySelector('.left-button-icon');
+            element.shadowRoot.querySelector<LightningButtonIcon>('.left-button-icon');
         prevButtonEl.click();
 
         // Wait for any asynchronous DOM updates
@@ -85,10 +88,10 @@ describe('c-paginator', () => {
 
     it('displays total item count, page number, and number of pages with zero items', () => {
         // Create initial element
-        const element = createElement('c-paginator', {
+        const element = createElement<Paginator>('c-paginator', {
             is: Paginator
         });
-        // Set the public property values
+        //Set the public property values
         element.pageNumber = 0;
         element.pageSize = 9;
         element.totalItemCount = 0;
@@ -104,11 +107,11 @@ describe('c-paginator', () => {
 
     it('displays total item count, page number, and number of pages with some items', async () => {
         // Create initial element
-        const element = createElement('c-paginator', {
+        const element = createElement<Paginator>('c-paginator', {
             is: Paginator
         });
 
-        // Set the public properties for item count greater than zero
+        //Set the public properties for item count greater than zero
         element.pageNumber = 1;
         element.pageSize = 9;
         element.totalItemCount = 12;
@@ -130,7 +133,7 @@ describe('c-paginator', () => {
 
     it('does not display next page button when reaching max page offset', async () => {
         // Create initial element
-        const element = createElement('c-paginator', {
+        const element = createElement<Paginator>('c-paginator', {
             is: Paginator
         });
 
@@ -151,7 +154,7 @@ describe('c-paginator', () => {
     });
 
     it('is accessible', async () => {
-        const element = createElement('c-paginator', {
+        const element = createElement<Paginator>('c-paginator', {
             is: Paginator
         });
 

@@ -1,12 +1,13 @@
 import { createElement } from 'lwc';
 import PropertyTile from 'c/propertyTile';
+import LightningFormattedNumber from "lightning/formattedNumber";
 
-const PROPERTY = {
+const PROPERTY: Property__c = {
     Name: 'My House',
     City__c: 'Some City',
-    Beds__c: '3',
-    Baths__c: '1',
-    Price__c: '450000',
+    Beds__c: 3,
+    Baths__c: 1,
+    Price__c: 450000,
     Thumbnail__c: 'some-property.jpg',
     Id: '12345'
 };
@@ -26,7 +27,7 @@ describe('c-property-tile', () => {
     }
 
     it('displays a property in the tile', () => {
-        const element = createElement('c-property-tile', {
+        const element = createElement<PropertyTile>('c-property-tile', {
             is: PropertyTile
         });
         element.property = PROPERTY;
@@ -42,27 +43,27 @@ describe('c-property-tile', () => {
             `Beds: ${PROPERTY.Beds__c} - Baths: ${PROPERTY.Baths__c}`
         );
 
-        const priceEl = element.shadowRoot.querySelector(
+        const priceEl = element.shadowRoot.querySelector<LightningFormattedNumber>(
             'lightning-formatted-number'
         );
         expect(priceEl.value).toBe(PROPERTY.Price__c);
     });
 
     it('displays the correct background image in the tile', () => {
-        const element = createElement('c-property-tile', {
+        const element = createElement<PropertyTile>('c-property-tile', {
             is: PropertyTile
         });
         element.property = PROPERTY;
         document.body.appendChild(element);
 
-        const backgroundEl = element.shadowRoot.querySelector('.tile');
+        const backgroundEl = element.shadowRoot.querySelector<HTMLDivElement>('.tile');
         expect(backgroundEl.style.backgroundImage).toBe(
             `url(${PROPERTY.Thumbnail__c})`
         );
     });
 
     it('Fires the property selected event on click for non Small formFactors', async () => {
-        const element = createElement('c-property-tile', {
+        const element = createElement<PropertyTile>('c-property-tile', {
             is: PropertyTile
         });
         element.property = PROPERTY;
@@ -85,7 +86,7 @@ describe('c-property-tile', () => {
     });
 
     it('is accessible', async () => {
-        const element = createElement('c-property-tile', {
+        const element = createElement<PropertyTile>('c-property-tile', {
             is: PropertyTile
         });
 

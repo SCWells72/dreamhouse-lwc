@@ -1,9 +1,14 @@
+// noinspection CssConvertColorToRgbInspection
+
 import { createElement } from 'lwc';
 import PropertyMap from 'c/propertyMap';
 import { getRecord } from 'lightning/uiRecordApi';
+import {LdsTestWireAdapter} from "@salesforce/wire-service-jest-util";
+import LightningMap from "lightning/map";
 
 // Realistic property record
-const mockPropertyRecord = require('./data/propertyRecord.json');
+import mockPropertyRecord from "./data/propertyRecord.json";
+
 const EXPECTED_MAP_MARKERS = [
     {
         location: {
@@ -58,12 +63,12 @@ describe('c-property-map', () => {
         document.body.appendChild(element);
 
         // Simulate property selection
-        getRecord.emit(mockPropertyRecord);
+        (<LdsTestWireAdapter><unknown>getRecord).emit(mockPropertyRecord);
 
         // Wait for any asynchronous DOM updates
         await flushPromises();
 
-        const mapEl = element.shadowRoot.querySelector('lightning-map');
+        const mapEl = element.shadowRoot.querySelector<LightningMap>('lightning-map');
         expect(mapEl).not.toBeNull();
         expect(mapEl.mapMarkers).toStrictEqual(EXPECTED_MAP_MARKERS);
     });
@@ -76,7 +81,7 @@ describe('c-property-map', () => {
         document.body.appendChild(element);
 
         // Simulate property selection
-        getRecord.emit(mockPropertyRecord);
+        (<LdsTestWireAdapter><unknown>getRecord).emit(mockPropertyRecord);
 
         // Wait for any asynchronous DOM updates
         await flushPromises();

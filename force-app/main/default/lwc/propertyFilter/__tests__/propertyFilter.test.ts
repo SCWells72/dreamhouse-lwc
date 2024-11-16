@@ -1,7 +1,12 @@
+// noinspection ReuseOfLocalVariableJS,LocalVariableNamingConventionJS,SpellCheckingInspection
+
 import { createElement } from 'lwc';
 import PropertyFilter from 'c/propertyFilter';
 import { publish } from 'lightning/messageService';
 import FILTERSCHANGEMC from '@salesforce/messageChannel/FiltersChange__c';
+import LightningButton from "lightning/button";
+import LightningInput from "lightning/input";
+import LightningSlider from "lightning/slider";
 
 const MAX_PRICE = 1200000;
 
@@ -197,7 +202,7 @@ describe('c-property-filter', () => {
 
         // Click reset button
         const lightningButtonEl =
-            element.shadowRoot.querySelector('lightning-button');
+            element.shadowRoot.querySelector<LightningButton>('lightning-button');
         lightningButtonEl.click();
         // Run all fake timers.
         jest.runAllTimers();
@@ -220,8 +225,8 @@ describe('c-property-filter', () => {
         });
         document.body.appendChild(element);
 
-        // Set inital form values
-        let searchKeyEl = element.shadowRoot.querySelector('lightning-input');
+        // Set initial form values
+        let searchKeyEl = element.shadowRoot.querySelector<LightningInput>('lightning-input');
         searchKeyEl.dispatchEvent(
             new CustomEvent('change', {
                 detail: {
@@ -229,7 +234,7 @@ describe('c-property-filter', () => {
                 }
             })
         );
-        let sliderEls = element.shadowRoot.querySelectorAll('lightning-slider');
+        let sliderEls = element.shadowRoot.querySelectorAll<LightningSlider>('lightning-slider');
         sliderEls[0].dispatchEvent(
             new CustomEvent('change', {
                 detail: {
@@ -254,17 +259,17 @@ describe('c-property-filter', () => {
 
         // Click reset button
         const lightningButtonEl =
-            element.shadowRoot.querySelector('lightning-button');
+            element.shadowRoot.querySelector<LightningButton>('lightning-button');
         lightningButtonEl.click();
 
         // Wait for any asynchronous DOM updates
         await flushPromises();
 
-        // Check for default searchkey value
-        searchKeyEl = element.shadowRoot.querySelector('lightning-input');
+        // Check for default search key value
+        searchKeyEl = element.shadowRoot.querySelector<LightningInput>('lightning-input');
         expect(searchKeyEl.value).toBe(DEFAULT_SEARCH_CRITERIA.searchKey);
 
-        sliderEls = element.shadowRoot.querySelectorAll('lightning-slider');
+        sliderEls = element.shadowRoot.querySelectorAll<LightningSlider>('lightning-slider');
         // Check for default maxPrice value
         expect(sliderEls[0].value).toBe(DEFAULT_SEARCH_CRITERIA.maxPrice);
         // Check for default minBedrooms value

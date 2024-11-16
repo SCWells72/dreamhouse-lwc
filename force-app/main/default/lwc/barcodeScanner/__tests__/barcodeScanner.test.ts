@@ -1,12 +1,17 @@
 import { createElement } from 'lwc';
 import { getNavigateCalledWith } from 'lightning/navigation';
-import BarcodeScanner from 'c/barcodeScanner';
+import MyBarcodeScanner from 'c/barcodeScanner';
+import LightningButton from "lightning/button";
 
-// Mock various barcode functionality from mobileCapabilites.js
+// Mock various barcode functionality from mobileCapabilities.js
 import {
+    // @ts-expect-error Not sure how to get these to resolve properly
     resetBarcodeScannerStubs,
+    // @ts-expect-error Not sure how to get these to resolve properly
     setBarcodeScannerAvailable,
+    // @ts-expect-error Not sure how to get these to resolve properly
     setUserCanceledScan,
+    // @ts-expect-error Not sure how to get these to resolve properly
     setBarcodeScanError
 } from 'lightning/mobileCapabilities';
 
@@ -37,7 +42,7 @@ describe('c-barcode-scanner-example', () => {
         // Create initial BarcodeScanner element and attach to virtual DOM
         const elementBarcodeScanner = createElement(
             'c-barcode-scanner-example',
-            { is: BarcodeScanner }
+            { is: MyBarcodeScanner }
         );
         document.body.appendChild(elementBarcodeScanner);
 
@@ -54,7 +59,7 @@ describe('c-barcode-scanner-example', () => {
         // Create initial BarcodeScanner element and attach to virtual DOM
         const elementBarcodeScanner = createElement(
             'c-barcode-scanner-example',
-            { is: BarcodeScanner }
+            { is: MyBarcodeScanner }
         );
         // Stub barcodeScanner as available
         setBarcodeScannerAvailable();
@@ -70,8 +75,11 @@ describe('c-barcode-scanner-example', () => {
 
     it('navigates to the expected record view when a QR code is correctly scanned', async () => {
         // Property record values to compare component output against
+        // noinspection LocalVariableNamingConventionJS
         const NAV_TYPE = 'standard__recordPage';
+        // noinspection LocalVariableNamingConventionJS
         const NAV_ACTION_NAME = 'view';
+        // noinspection LocalVariableNamingConventionJS
         const NAV_RECORD_ID = '0031700000pJRRWAA4';
 
         // Stub barcodeScanner availability to true
@@ -80,13 +88,13 @@ describe('c-barcode-scanner-example', () => {
         // Create initial BarcodeScanner element and attach to virtual DOM
         const elementBarcodeScanner = createElement(
             'c-barcode-scanner-example',
-            { is: BarcodeScanner }
+            { is: MyBarcodeScanner }
         );
         document.body.appendChild(elementBarcodeScanner);
 
         // Mount `Scan QR Code` button and trigger scan of property record ID
         const elementScanQRCodeButton =
-            elementBarcodeScanner.shadowRoot.querySelector('lightning-button');
+            elementBarcodeScanner.shadowRoot.querySelector<LightningButton>('lightning-button');
         elementScanQRCodeButton.click();
 
         // Wait for async scan function to settle
@@ -109,12 +117,13 @@ describe('c-barcode-scanner-example', () => {
         setUserCanceledScan();
 
         // Mock handler for toast event
+        // noinspection DuplicatedCode
         const toastEventSpy = jest.fn();
 
         // Create initial BarcodeScanner element and attach to virtual DOM
         const elementBarcodeScanner = createElement(
             'c-barcode-scanner-example',
-            { is: BarcodeScanner }
+            { is: MyBarcodeScanner }
         );
         document.body.appendChild(elementBarcodeScanner);
 
@@ -126,13 +135,13 @@ describe('c-barcode-scanner-example', () => {
 
         // Mount `Scan QR Code` button and trigger scan of property record ID
         const elementScanQRCodeButton =
-            elementBarcodeScanner.shadowRoot.querySelector('lightning-button');
+            elementBarcodeScanner.shadowRoot.querySelector<LightningButton>('lightning-button');
         elementScanQRCodeButton.click();
 
         // Wait for element to mount
         await flushPromises();
 
-        // Check that cancelation toast was triggered
+        // Check that cancellation toast was triggered
 
         // Check if toast event has been fired
         expect(toastEventSpy).toHaveBeenCalled();
@@ -145,17 +154,18 @@ describe('c-barcode-scanner-example', () => {
         // Stub barcodeScanner as available
         setBarcodeScannerAvailable();
 
-        // Mock scan erroring out
+        // Mock scan error-ing out
         setBarcodeScanError();
 
         // Mock handler for toast event
+        // noinspection DuplicatedCode
         const toastEventSpy = jest.fn();
 
         // Create initial BarcodeScanner element and attach to virtual DOM
         const elementBarcodeScanner = createElement(
             'c-barcode-scanner-example',
             {
-                is: BarcodeScanner
+                is: MyBarcodeScanner
             }
         );
         document.body.appendChild(elementBarcodeScanner);
@@ -168,7 +178,7 @@ describe('c-barcode-scanner-example', () => {
 
         // Mount `Scan QR Code` button and trigger scan of property record ID
         const elementScanQRCodeButton =
-            elementBarcodeScanner.shadowRoot.querySelector('lightning-button');
+            elementBarcodeScanner.shadowRoot.querySelector<LightningButton>('lightning-button');
         elementScanQRCodeButton.click();
 
         // Wait for element to mount

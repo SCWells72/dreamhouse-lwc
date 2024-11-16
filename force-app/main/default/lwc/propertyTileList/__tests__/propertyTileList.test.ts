@@ -1,12 +1,15 @@
+// noinspection SpellCheckingInspection
+
 import { createElement } from 'lwc';
 import PropertyTileList from 'c/propertyTileList';
 import getPagedPropertyList from '@salesforce/apex/PropertyController.getPagedPropertyList';
 import { publish, subscribe, MessageContext } from 'lightning/messageService';
 import FILTERSCHANGEMC from '@salesforce/messageChannel/FiltersChange__c';
 import PROPERTYSELECTEDMC from '@salesforce/messageChannel/PropertySelected__c';
+import {ApexTestWireAdapter} from "@salesforce/wire-service-jest-util";
 
 // Realistic data with multiple records
-const mockgetPagedPropertyList = require('./data/getPagedPropertyList.json');
+import mockGetPagedPropertyList from "./data/getPagedPropertyList.json";
 
 // Mock getPagedPropertyList Apex wire adapter
 jest.mock(
@@ -14,6 +17,7 @@ jest.mock(
     () => {
         const {
             createApexTestWireAdapter
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
         } = require('@salesforce/sfdx-lwc-jest');
         return {
             default: createApexTestWireAdapter(jest.fn())
@@ -45,7 +49,7 @@ describe('c-property-tile-list', () => {
             document.body.appendChild(element);
 
             // Emit mock properties
-            getPagedPropertyList.emit(mockgetPagedPropertyList);
+            (<ApexTestWireAdapter><unknown>getPagedPropertyList).emit(mockGetPagedPropertyList);
 
             // Wait for any asynchronous DOM updates
             await flushPromises();
@@ -53,7 +57,7 @@ describe('c-property-tile-list', () => {
             const propertyTileEls =
                 element.shadowRoot.querySelectorAll('c-property-tile');
             expect(propertyTileEls.length).toBe(
-                mockgetPagedPropertyList.records.length
+                mockGetPagedPropertyList.records.length
             );
         });
 
@@ -64,7 +68,7 @@ describe('c-property-tile-list', () => {
             document.body.appendChild(element);
 
             // Emit error
-            getPagedPropertyList.error();
+            (<ApexTestWireAdapter><unknown>getPagedPropertyList).error();
 
             // Wait for any asynchronous DOM updates
             await flushPromises();
@@ -83,7 +87,7 @@ describe('c-property-tile-list', () => {
 
         // Validate if subscriber got registered after connected to the DOM
         expect(subscribe).toHaveBeenCalled();
-        expect(subscribe.mock.calls[0][1]).toBe(FILTERSCHANGEMC);
+        expect((<jest.MockInstance<any, any>><unknown>subscribe).mock.calls[0][1]).toBe(FILTERSCHANGEMC);
     });
 
     it('invokes getPagedPropertyList with the propertyFilters message payload value', async () => {
@@ -92,7 +96,7 @@ describe('c-property-tile-list', () => {
         });
         document.body.appendChild(element);
 
-        // Simulate pulishing a message using FILTERSCHANGEMC message channel
+        // Simulate publishing a message using FILTERSCHANGEMC message channel
         const messagePayload = {
             searchKey: 'victorian',
             maxPrice: 400000,
@@ -107,7 +111,7 @@ describe('c-property-tile-list', () => {
         // The component subscription should cause getRecord to be invoked.
         // Below we test that it is invoked with the messagePayload value
         // that was published with the simulated publish invocation above.
-        const receivedPayload = getPagedPropertyList.getLastConfig();
+        const receivedPayload = (<ApexTestWireAdapter><unknown>getPagedPropertyList).getLastConfig();
         expect(receivedPayload.searchKey).toBe(messagePayload.searchKey);
         expect(receivedPayload.maxPrice).toBe(messagePayload.maxPrice);
         expect(receivedPayload.minBedrooms).toBe(messagePayload.minBedrooms);
@@ -119,7 +123,7 @@ describe('c-property-tile-list', () => {
             is: PropertyTileList
         });
         document.body.appendChild(element);
-        getPagedPropertyList.emit(mockgetPagedPropertyList);
+        (<ApexTestWireAdapter><unknown>getPagedPropertyList).emit(mockGetPagedPropertyList);
 
         // Wait for any asynchronous DOM updates
         await flushPromises();

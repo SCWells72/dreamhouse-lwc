@@ -1,22 +1,25 @@
 import { createElement } from 'lwc';
 import PropertyLocation from 'c/propertyLocation';
 import { getRecord } from 'lightning/uiRecordApi';
+// @ts-expect-error This doesn't seem to be a legitimate part of the API
 import { setDeviceLocationServiceAvailable } from 'lightning/mobileCapabilities';
 import { mockGeolocation } from '../../../../../test/jest-mocks/global/navigator';
+import {LdsTestWireAdapter} from "@salesforce/wire-service-jest-util";
 
 // Realistic property record
-const mockPropertyRecord = require('./data/getRecord.json');
+import mockPropertyRecord from "./data/getRecord.json";
+import LightningFormattedNumber from "lightning/formattedNumber";
 
-const checkDistanceCalculation = (element) => {
-    const latitudeEl = element.shadowRoot.querySelector(
+const checkDistanceCalculation = (element: PropertyLocation) => {
+    const latitudeEl = element.shadowRoot.querySelector<HTMLDivElement>(
         'div.location .latitude'
     );
     expect(latitudeEl).not.toBe(null);
-    const longitudeEl = element.shadowRoot.querySelector(
+    const longitudeEl = element.shadowRoot.querySelector<HTMLDivElement>(
         'div.location .longitude'
     );
     expect(longitudeEl).not.toBe(null);
-    const formattedNumberEl = element.shadowRoot.querySelector(
+    const formattedNumberEl = element.shadowRoot.querySelector<LightningFormattedNumber>(
         'div.location lightning-formatted-number'
     );
     expect(formattedNumberEl).not.toBe(null);
@@ -65,7 +68,7 @@ describe('c-property-location', () => {
         document.body.appendChild(element);
 
         // Simulate error
-        getRecord.error();
+        (<LdsTestWireAdapter><unknown>getRecord).error();
 
         // Wait for any asynchronous DOM updates
         await flushPromises();
@@ -77,16 +80,18 @@ describe('c-property-location', () => {
     // eslint-disable-next-line jest/expect-expect
     it('renders coordinates and distance when browser location is available', async () => {
         // Simulate browser location
+        // @ts-expect-error Assignment to const
+        // noinspection JSConstantReassignment
         global.navigator.geolocation = mockGeolocation;
 
-        const element = createElement('c-property-location', {
+        const element = createElement<PropertyLocation>('c-property-location', {
             is: PropertyLocation
         });
         element.recordId = mockPropertyRecord.id;
         document.body.appendChild(element);
 
         // Simulate property selection
-        getRecord.emit(mockPropertyRecord);
+        (<LdsTestWireAdapter><unknown>getRecord).emit(mockPropertyRecord);
 
         // Wait for any asynchronous DOM updates
         await flushPromises();
@@ -99,14 +104,14 @@ describe('c-property-location', () => {
         // Simulate device location is available
         setDeviceLocationServiceAvailable(true);
 
-        const element = createElement('c-property-location', {
+        const element = createElement<PropertyLocation>('c-property-location', {
             is: PropertyLocation
         });
         element.recordId = mockPropertyRecord.id;
         document.body.appendChild(element);
 
         // Simulate property selection
-        getRecord.emit(mockPropertyRecord);
+        (<LdsTestWireAdapter><unknown>getRecord).emit(mockPropertyRecord);
 
         // Wait for any asynchronous DOM updates
         await flushPromises();
@@ -118,14 +123,14 @@ describe('c-property-location', () => {
         // Simulate device location is available
         setDeviceLocationServiceAvailable(true);
 
-        const element = createElement('c-property-location', {
+        const element = createElement<PropertyLocation>('c-property-location', {
             is: PropertyLocation
         });
         element.recordId = mockPropertyRecord.id;
         document.body.appendChild(element);
 
         // Simulate property selection
-        getRecord.emit(mockPropertyRecord);
+        (<LdsTestWireAdapter><unknown>getRecord).emit(mockPropertyRecord);
 
         // Wait for any asynchronous DOM updates
         await flushPromises();

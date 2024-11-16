@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols,UnnecessaryLocalVariableJS
+
 import { createElement } from 'lwc';
 import PropertyListMap from 'c/propertyListMap';
 import getPagedPropertyList from '@salesforce/apex/PropertyController.getPagedPropertyList';
@@ -7,6 +9,7 @@ import FILTERS_CHANGED from '@salesforce/messageChannel/FiltersChange__c';
 
 import { ShowToastEventName } from 'lightning/platformShowToastEvent';
 import { loadScript, loadStyle } from 'lightning/platformResourceLoader';
+import {ApexTestWireAdapter} from "@salesforce/wire-service-jest-util";
 
 // Mock getPagedPropertyList Apex wire adapter
 jest.mock(
@@ -14,6 +17,7 @@ jest.mock(
     () => {
         const {
             createApexTestWireAdapter
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
         } = require('@salesforce/sfdx-lwc-jest');
         return {
             default: createApexTestWireAdapter(jest.fn())
@@ -90,7 +94,7 @@ describe('c-property-list-map', () => {
 
         // Validate if subscriber got registered after connected to the DOM
         expect(subscribe).toHaveBeenCalled();
-        expect(subscribe.mock.calls[0][1]).toBe(FILTERS_CHANGED);
+        expect((<jest.MockInstance<any, any>><unknown>subscribe).mock.calls[0][1]).toBe(FILTERS_CHANGED);
     });
 
     it('loads the leaflet javascript and css static resources', () => {
@@ -102,16 +106,16 @@ describe('c-property-list-map', () => {
 
         // Validation that the loadScript and loadStyle promises
         // are called once.
-        expect(loadScript.mock.calls.length).toBe(1);
-        expect(loadStyle.mock.calls.length).toBe(1);
+        expect((<jest.MockInstance<any, any>><unknown>loadScript).mock.calls.length).toBe(1);
+        expect((<jest.MockInstance<any, any>><unknown>loadStyle).mock.calls.length).toBe(1);
 
         // Validation that the JS and CSS files are passed as parameters.
-        expect(loadScript.mock.calls[0][1]).toEqual('leafletjs/leaflet.js');
-        expect(loadStyle.mock.calls[0][1]).toEqual('leafletjs/leaflet.css');
+        expect((<jest.MockInstance<any, any>><unknown>loadScript).mock.calls[0][1]).toEqual('leafletjs/leaflet.js');
+        expect((<jest.MockInstance<any, any>><unknown>loadStyle).mock.calls[0][1]).toEqual('leafletjs/leaflet.css');
     });
 
     it('fires a toast event if the static resource cannot be loaded', async () => {
-        loadScript.mockRejectedValue(LOAD_SCRIPT_ERROR);
+        (<jest.MockInstance<any, any>><unknown>loadScript).mockRejectedValue(LOAD_SCRIPT_ERROR);
 
         // Create component
         const element = createElement('c-property-list-map', {
@@ -150,7 +154,7 @@ describe('c-property-list-map', () => {
         element.addEventListener(ShowToastEventName, handler);
 
         // Emit error from @wire
-        getPagedPropertyList.error();
+        (<ApexTestWireAdapter><unknown>getPagedPropertyList).error();
 
         // Wait for any asynchronous DOM updates
         await flushPromises();
@@ -199,7 +203,7 @@ describe('c-property-list-map', () => {
         await flushPromises();
 
         // Emit mock properties
-        getPagedPropertyList.emit(MOCK_PROPERTIES);
+        (<ApexTestWireAdapter><unknown>getPagedPropertyList).emit(MOCK_PROPERTIES);
 
         // Wait for any asynchronous DOM updates
         await flushPromises();
@@ -208,7 +212,8 @@ describe('c-property-list-map', () => {
         expect(markerMock).toHaveBeenCalledTimes(
             MOCK_PROPERTIES.records.length
         );
-        MOCK_PROPERTIES.records.forEach((property, index) => {
+        MOCK_PROPERTIES.records.forEach((_property, index) => {
+            // @ts-expect-error Not sure why it's saying that the sub-index is invalid
             expect(markerMock.mock.calls[index][0]).toStrictEqual([
                 MOCK_PROPERTIES.records[index].Location__Latitude__s,
                 MOCK_PROPERTIES.records[index].Location__Longitude__s

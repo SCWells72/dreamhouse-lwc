@@ -1,12 +1,14 @@
+// noinspection LocalVariableNamingConventionJS
+
 import { createElement } from 'lwc';
 import PropertyTile from 'c/propertyTile';
 import { getNavigateCalledWith } from 'lightning/navigation';
 
-const PROPERTY = {
+const PROPERTY: Property__c = {
     City__c: 'Some City',
-    Beds__c: '3',
-    Baths__c: '1',
-    Price__c: '450000',
+    Beds__c: 3,
+    Baths__c: 1,
+    Price__c: 450000,
     Thumbnail__c: 'some-property.jpg',
     Id: '12345'
 };
@@ -40,7 +42,7 @@ describe('c-property-tile', () => {
         const NAV_ACTION_NAME = 'view';
         const NAV_OBJECT_API_NAME = 'Property__c';
 
-        const element = createElement('c-property-tile', {
+        const element = createElement<PropertyTile>('c-property-tile', {
             is: PropertyTile
         });
         element.property = PROPERTY;

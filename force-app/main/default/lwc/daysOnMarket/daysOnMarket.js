@@ -1,20 +1,14 @@
+// noinspection SpellCheckingInspection
 import { LightningElement, api, wire } from 'lwc';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
-import {
-    subscribe,
-    unsubscribe,
-    MessageContext
-} from 'lightning/messageService';
+import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
 import PROPERTYSELECTEDMC from '@salesforce/messageChannel/PropertySelected__c';
 import DATE_LISTED_FIELD from '@salesforce/schema/Property__c.Date_Listed__c';
 import DAYS_ON_MARKET_FIELD from '@salesforce/schema/Property__c.Days_On_Market__c';
-
 const MAX_DAYS_NORMAL_STATUS = 30;
 const MAX_DAYS_WARNING_STATUS = 60;
 const MAX_DAYS_CHART = 90;
-
 const FIELDS = [DATE_LISTED_FIELD, DAYS_ON_MARKET_FIELD];
-
 export default class DaysOnMarket extends LightningElement {
     error;
     daysOnMarket;
@@ -22,73 +16,62 @@ export default class DaysOnMarket extends LightningElement {
     propertyId;
     status;
     subscription;
-
     @wire(MessageContext)
     messageContext;
-
     @wire(getRecord, { recordId: '$propertyId', fields: FIELDS })
-    wiredRecord({ error, data }) {
-        if (data) {
+    wiredRecord(result) {
+        if (result.data) {
             this.error = undefined;
-            this.dateListed = getFieldValue(data, DATE_LISTED_FIELD);
-            this.daysOnMarket = getFieldValue(data, DAYS_ON_MARKET_FIELD);
+            this.dateListed = String(getFieldValue(result.data, DATE_LISTED_FIELD));
+            this.daysOnMarket = Number(getFieldValue(result.data, DAYS_ON_MARKET_FIELD));
             if (this.daysOnMarket < MAX_DAYS_NORMAL_STATUS) {
                 this.status = 'normal';
-            } else if (this.daysOnMarket < MAX_DAYS_WARNING_STATUS) {
+            }
+            else if (this.daysOnMarket < MAX_DAYS_WARNING_STATUS) {
                 this.status = 'warning';
-            } else {
+            }
+            else {
                 this.status = 'alert';
             }
-        } else if (error) {
+        }
+        else if (result.error) {
             this.daysOnMarket = undefined;
             this.dateListed = undefined;
             this.status = undefined;
-            this.error = error;
+            this.error = result.error;
         }
     }
-
     @api
     get recordId() {
         return this.propertyId;
     }
-
     set recordId(propertyId) {
         this.propertyId = propertyId;
     }
-
     get hasNoPropertyId() {
         return this.propertyId === undefined;
     }
-
     get badgeClass() {
         return 'badge ' + this.status;
     }
-
     get barClass() {
         return 'bar ' + this.status;
     }
-
     get barStyle() {
         const value = (this.daysOnMarket / MAX_DAYS_CHART) * 100;
         return 'width:' + value + '%';
     }
-
     connectedCallback() {
-        this.subscription = subscribe(
-            this.messageContext,
-            PROPERTYSELECTEDMC,
-            (message) => {
-                this.handlePropertySelected(message);
-            }
-        );
+        this.subscription = subscribe(this.messageContext, PROPERTYSELECTEDMC, (message) => {
+            this.handlePropertySelected(message);
+        });
     }
-
     disconnectedCallback() {
         unsubscribe(this.subscription);
         this.subscription = null;
     }
-
     handlePropertySelected(message) {
         this.propertyId = message.propertyId;
     }
 }
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZGF5c09uTWFya2V0LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiZGF5c09uTWFya2V0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLHVDQUF1QztBQUV2QyxPQUFPLEVBQUUsZ0JBQWdCLEVBQUUsR0FBRyxFQUFFLElBQUksRUFBRSxNQUFNLEtBQUssQ0FBQztBQUNsRCxPQUFPLEVBQUMsU0FBUyxFQUFFLGFBQWEsRUFBdUIsTUFBTSx1QkFBdUIsQ0FBQztBQUNyRixPQUFPLEVBQ0gsU0FBUyxFQUNULFdBQVcsRUFDWCxjQUFjLEVBR2pCLE1BQU0sMEJBQTBCLENBQUM7QUFDbEMsT0FBTyxrQkFBa0IsTUFBTSxnREFBZ0QsQ0FBQztBQUNoRixPQUFPLGlCQUFpQixNQUFNLCtDQUErQyxDQUFDO0FBQzlFLE9BQU8sb0JBQW9CLE1BQU0sa0RBQWtELENBQUM7QUFFcEYsTUFBTSxzQkFBc0IsR0FBRyxFQUFFLENBQUM7QUFDbEMsTUFBTSx1QkFBdUIsR0FBRyxFQUFFLENBQUM7QUFDbkMsTUFBTSxjQUFjLEdBQUcsRUFBRSxDQUFDO0FBRTFCLE1BQU0sTUFBTSxHQUFHLENBQUMsaUJBQWlCLEVBQUUsb0JBQW9CLENBQUMsQ0FBQztBQU16RCxNQUFNLENBQUMsT0FBTyxPQUFPLFlBQWEsU0FBUSxnQkFBZ0I7SUFDdEQsS0FBSyxDQUFNO0lBQ1gsWUFBWSxDQUFTO0lBQ3JCLFVBQVUsQ0FBUztJQUNuQixVQUFVLENBQVM7SUFDbkIsTUFBTSxDQUFTO0lBQ2YsWUFBWSxDQUE2QjtJQUV6QyxDQUFDLElBQUksQ0FBQyxjQUFjLENBQUM7SUFDckIsY0FBYyxDQUFxQjtJQUVuQyxDQUFDLElBQUksQ0FBQyxTQUFTLEVBQUUsRUFBRSxRQUFRLEVBQUUsYUFBYSxFQUFFLE1BQU0sRUFBRSxNQUFNLEVBQUUsQ0FBQztJQUM3RCxXQUFXLENBQUMsTUFBd0M7UUFDaEQsSUFBSSxNQUFNLENBQUMsSUFBSSxFQUFFLENBQUM7WUFDZCxJQUFJLENBQUMsS0FB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

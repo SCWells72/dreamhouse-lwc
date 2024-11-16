@@ -5,12 +5,14 @@ import { processImage } from 'lightning/mediaUtils';
 import { refreshApex } from '@salesforce/apex';
 import getPictures from '@salesforce/apex/PropertyController.getPictures';
 import createFile from '@salesforce/apex/FileUtilities.createFile';
+import {ApexTestWireAdapter, LdsTestWireAdapter} from "@salesforce/wire-service-jest-util";
+import LightningInput from "lightning/input";
 
 // Realistic data with multiple records
-const mockGetPictures = require('./data/getPictures.json');
+import mockGetPictures from "./data/getPictures.json";
 
 // Mock realistic data
-const mockGetPropertyRecord = require('./data/getPropertyRecord.json');
+import mockGetPropertyRecord from "./data/getPropertyRecord.json";
 
 // Mock getPictures Apex wire adapter
 jest.mock(
@@ -18,6 +20,7 @@ jest.mock(
     () => {
         const {
             createApexTestWireAdapter
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
         } = require('@salesforce/sfdx-lwc-jest');
         return {
             default: createApexTestWireAdapter(jest.fn())
@@ -60,10 +63,10 @@ describe('c-property-carousel', () => {
             document.body.appendChild(element);
 
             // Emit mock property
-            getRecord.emit(mockGetPropertyRecord);
+            (<LdsTestWireAdapter><unknown>getRecord).emit(mockGetPropertyRecord);
 
             // Emit mock pictures
-            getPictures.emit(mockGetPictures);
+            (<ApexTestWireAdapter><unknown>getPictures).emit(mockGetPictures);
 
             // Wait for any asynchronous DOM updates
             await flushPromises();
@@ -84,10 +87,10 @@ describe('c-property-carousel', () => {
             document.body.appendChild(element);
 
             // Emit mock property
-            getRecord.emit(mockGetPropertyRecord);
+            (<LdsTestWireAdapter><unknown>getRecord).emit(mockGetPropertyRecord);
 
             // Emit no pictures
-            getPictures.emit(null);
+            (<ApexTestWireAdapter><unknown>getPictures).emit(null);
 
             // Wait for any asynchronous DOM updates
             await flushPromises();
@@ -108,7 +111,7 @@ describe('c-property-carousel', () => {
             document.body.appendChild(element);
 
             // Emit error
-            getRecord.error();
+            (<LdsTestWireAdapter><unknown>getRecord).error();
 
             // Wait for any asynchronous DOM updates
             await flushPromises();
@@ -125,10 +128,10 @@ describe('c-property-carousel', () => {
             document.body.appendChild(element);
 
             // Emit mock property
-            getRecord.emit(mockGetPropertyRecord);
+            (<LdsTestWireAdapter><unknown>getRecord).emit(mockGetPropertyRecord);
 
             // Emit error
-            getPictures.error();
+            (<ApexTestWireAdapter><unknown>getPictures).error();
 
             // Wait for any asynchronous DOM updates
             await flushPromises();
@@ -146,24 +149,24 @@ describe('c-property-carousel', () => {
             document.body.appendChild(element);
 
             // Emit mock property
-            getRecord.emit(mockGetPropertyRecord);
+            (<LdsTestWireAdapter><unknown>getRecord).emit(mockGetPropertyRecord);
 
             // Emit mock createFile
-            createFile.mockResolvedValue('A00012345678');
+            (<jest.MockInstance<any, any>><unknown>createFile).mockResolvedValue('A00012345678');
 
             // Wait for any asynchronous DOM updates
             await flushPromises();
 
             // Simulate input click
             const lightningInputEl =
-                element.shadowRoot.querySelector('lightning-input');
+                element.shadowRoot.querySelector<LightningInput>('lightning-input');
             lightningInputEl.files = [
                 new File(['1234'], 'test.jpg', { type: 'image/jpeg' })
             ];
             lightningInputEl.dispatchEvent(new CustomEvent('change'));
 
             // eslint-disable-next-line @lwc/lwc/no-async-operation
-            await new Promise((resolve) => setTimeout(() => resolve(), 10));
+            await new Promise<void>((resolve) => setTimeout(() => resolve(), 10));
 
             // Assertions
             expect(processImage).toHaveBeenCalled();

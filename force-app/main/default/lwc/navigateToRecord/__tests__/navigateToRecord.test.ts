@@ -1,3 +1,5 @@
+// noinspection LocalVariableNamingConventionJS
+
 import { createElement } from 'lwc';
 import NavigateToRecord from 'c/navigateToRecord';
 import { getNavigateCalledWith } from 'lightning/navigation';
@@ -25,7 +27,7 @@ describe('c-navigate-to-record', () => {
         const NAV_RECORD_ID = '0031700000pJRRWAA4';
 
         // Create initial lwc element and attach to virtual DOM
-        const element = createElement('c-navigate-to-record', {
+        const element = createElement<NavigateToRecord>('c-navigate-to-record', {
             is: NavigateToRecord
         });
 

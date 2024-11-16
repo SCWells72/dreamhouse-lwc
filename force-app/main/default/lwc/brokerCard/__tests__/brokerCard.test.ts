@@ -1,10 +1,16 @@
+// noinspection LocalVariableNamingConventionJS
+
 import { createElement } from 'lwc';
 import BrokerCard from 'c/brokerCard';
 import { getNavigateCalledWith } from 'lightning/navigation';
 import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 
 // Mock realistic data
-const mockGetPropertyRecord = require('./data/getPropertyRecord.json');
+import mockGetPropertyRecord from "./data/getPropertyRecord.json";
+import {LdsTestWireAdapter} from "@salesforce/wire-service-jest-util";
+import LightningRecordForm from "lightning/recordForm";
+import LightningButtonIcon from "lightning/buttonIcon";
+import ErrorPanel from "c/errorPanel";
 
 const BROKER_ID = 'a003h000003xlBiAAI';
 
@@ -53,12 +59,12 @@ describe('c-broker-card', () => {
             document.body.appendChild(element);
 
             // Emit data from @wire
-            getRecord.emit(mockGetPropertyRecord);
+            (<LdsTestWireAdapter><unknown>getRecord).emit(mockGetPropertyRecord);
 
             // Wait for any asynchronous DOM updates
             await flushPromises();
 
-            const propertyEl = element.shadowRoot.querySelector(
+            const propertyEl = element.shadowRoot.querySelector<LightningRecordForm>(
                 'lightning-record-form'
             );
             expect(getFieldValue).toHaveBeenCalled();
@@ -73,12 +79,12 @@ describe('c-broker-card', () => {
             document.body.appendChild(element);
 
             // Emit data from @wire
-            getRecord.emit(mockGetPropertyRecord);
+            (<LdsTestWireAdapter><unknown>getRecord).emit(mockGetPropertyRecord);
 
             // Wait for any asynchronous DOM updates
             await flushPromises();
 
-            const propertyEl = element.shadowRoot.querySelector(
+            const propertyEl = element.shadowRoot.querySelector<LightningRecordForm>(
                 'lightning-record-form'
             );
             expect(propertyEl.fields).toEqual(BROKER_FIELDS_INPUT);
@@ -101,13 +107,13 @@ describe('c-broker-card', () => {
             document.body.appendChild(element);
 
             // Simulate the data sent over wire adapter to hydrate the wired property
-            getRecord.emit(mockGetPropertyRecord);
+            (<LdsTestWireAdapter><unknown>getRecord).emit(mockGetPropertyRecord);
 
             // Wait for any asynchronous DOM updates
             await flushPromises();
 
             // Get handle to view button and fire click event
-            const buttonEl = element.shadowRoot.querySelector(
+            const buttonEl = element.shadowRoot.querySelector<LightningButtonIcon>(
                 'lightning-button-icon'
             );
             buttonEl.click();
@@ -133,14 +139,15 @@ describe('c-broker-card', () => {
             });
             document.body.appendChild(element);
 
-            getRecord.error(WIRE_ERROR);
+            (<LdsTestWireAdapter><unknown>getRecord).error(WIRE_ERROR);
 
             // Wait for any asynchronous DOM updates
             await flushPromises();
 
             const errorPanelEl =
-                element.shadowRoot.querySelector('c-error-panel');
+                element.shadowRoot.querySelector<ErrorPanel>('c-error-panel');
             expect(errorPanelEl).not.toBeNull();
+            // @ts-expect-error Not sure what type "errors" is expected to be below
             expect(errorPanelEl.errors.body).toBe(WIRE_ERROR);
             expect(errorPanelEl.friendlyMessage).toBe('Error retrieving data');
         });
@@ -154,7 +161,7 @@ describe('c-broker-card', () => {
         document.body.appendChild(element);
 
         // Emit data from @wire
-        getRecord.emit(mockGetPropertyRecord);
+        (<LdsTestWireAdapter><unknown>getRecord).emit(mockGetPropertyRecord);
 
         // Wait for any asynchronous DOM updates
         await flushPromises();
@@ -171,7 +178,7 @@ describe('c-broker-card', () => {
         });
         document.body.appendChild(element);
 
-        getRecord.error(WIRE_ERROR);
+        (<LdsTestWireAdapter><unknown>getRecord).error(WIRE_ERROR);
 
         // Wait for any asynchronous DOM updates
         await flushPromises();
