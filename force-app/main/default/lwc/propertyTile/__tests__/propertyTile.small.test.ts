@@ -48,7 +48,7 @@ describe('c-property-tile', () => {
         element.property = PROPERTY;
         document.body.appendChild(element);
 
-        const anchorEl = element.shadowRoot.querySelector('a');
+        const anchorEl = element.shadowRoot.querySelector<HTMLAnchorElement>('a');
         anchorEl.click();
 
         // Wait for any asynchronous DOM updates

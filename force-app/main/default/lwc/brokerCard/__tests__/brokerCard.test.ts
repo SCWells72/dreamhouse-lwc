@@ -53,7 +53,7 @@ describe('c-broker-card', () => {
     describe('broker record form', () => {
         it('gets property data from wire service', async () => {
             // Create element
-            const element = createElement('c-broker-card', {
+            const element = createElement<BrokerCard>('c-broker-card', {
                 is: BrokerCard
             });
             document.body.appendChild(element);
@@ -73,7 +73,7 @@ describe('c-broker-card', () => {
 
         it('renders lightning-record-form with given input values', async () => {
             // Create element
-            const element = createElement('c-broker-card', {
+            const element = createElement<BrokerCard>('c-broker-card', {
                 is: BrokerCard
             });
             document.body.appendChild(element);
@@ -101,7 +101,7 @@ describe('c-broker-card', () => {
             const NAV_RECORD_ID = BROKER_ID;
 
             // Create initial lwc element and attach to virtual DOM
-            const element = createElement('c-broker-card', {
+            const element = createElement<BrokerCard>('c-broker-card', {
                 is: BrokerCard
             });
             document.body.appendChild(element);
@@ -134,7 +134,7 @@ describe('c-broker-card', () => {
             const WIRE_ERROR = 'Something bad happened';
 
             // Create element and attach to virtual DOM
-            const element = createElement('c-broker-card', {
+            const element = createElement<BrokerCard>('c-broker-card', {
                 is: BrokerCard
             });
             document.body.appendChild(element);
@@ -154,7 +154,7 @@ describe('c-broker-card', () => {
     });
 
     it('is accessible when property returned', async () => {
-        const element = createElement('c-broker-card', {
+        const element = createElement<BrokerCard>('c-broker-card', {
             is: BrokerCard
         });
 
@@ -173,7 +173,7 @@ describe('c-broker-card', () => {
         const WIRE_ERROR = 'Something bad happened';
 
         // Create element and attach to virtual DOM
-        const element = createElement('c-broker-card', {
+        const element = createElement<BrokerCard>('c-broker-card', {
             is: BrokerCard
         });
         document.body.appendChild(element);

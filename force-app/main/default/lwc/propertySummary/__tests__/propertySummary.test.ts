@@ -3,6 +3,7 @@ import PropertySummary from 'c/propertySummary';
 import { getRecord } from 'lightning/uiRecordApi';
 import {LdsTestWireAdapter} from "@salesforce/wire-service-jest-util";
 import LightningRecordForm from "lightning/recordForm";
+import ErrorPanel from 'c/errorPanel';
 
 // Realistic property record
 import mockPropertyRecord from "./data/getRecord.json";
@@ -23,7 +24,7 @@ describe('c-property-summary', () => {
     }
 
     it('renders an error panel when no property is selected', async () => {
-        const element = createElement('c-property-summary', {
+        const element = createElement<PropertySummary>('c-property-summary', {
             is: PropertySummary
         });
 
@@ -32,12 +33,12 @@ describe('c-property-summary', () => {
         // Wait for any asynchronous DOM updates
         await flushPromises();
 
-        const panelEl = element.shadowRoot.querySelector('c-error-panel');
+        const panelEl = element.shadowRoot.querySelector<ErrorPanel>('c-error-panel');
         expect(panelEl).not.toBeNull();
     });
 
     it('renders an error panel when getRecord returns an error', async () => {
-        const element = createElement('c-property-summary', {
+        const element = createElement<PropertySummary>('c-property-summary', {
             is: PropertySummary
         });
 
@@ -49,7 +50,7 @@ describe('c-property-summary', () => {
         // Wait for any asynchronous DOM updates
         await flushPromises();
 
-        const panelEl = element.shadowRoot.querySelector('c-error-panel');
+        const panelEl = element.shadowRoot.querySelector<ErrorPanel>('c-error-panel');
         expect(panelEl).not.toBeNull();
     });
 
@@ -74,7 +75,7 @@ describe('c-property-summary', () => {
     });
 
     it('is accessible when property is selected', async () => {
-        const element = createElement('c-property-summary', {
+        const element = createElement<PropertySummary>('c-property-summary', {
             is: PropertySummary
         });
 
@@ -90,7 +91,7 @@ describe('c-property-summary', () => {
     });
 
     it('is accessible when property is not selected', async () => {
-        const element = createElement('c-property-summary', {
+        const element = createElement<PropertySummary>('c-property-summary', {
             is: PropertySummary
         });
 

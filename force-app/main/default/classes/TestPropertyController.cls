@@ -1,4 +1,4 @@
-@isTest
+@IsTest
 private class TestPropertyController {
     private final static String MOCK_PICTURE_NAME = 'MockPictureName';
 
@@ -17,7 +17,7 @@ private class TestPropertyController {
         insert properties;
     }
 
-    @isTest
+    @IsTest
     static void testGetPagedPropertyList() {
         Profile standardUserProfile = [
             SELECT Name, Id
@@ -38,7 +38,7 @@ private class TestPropertyController {
             LocaleSidKey = 'en_US',
             ProfileId = standardUserProfile.Id,
             TimeZoneSidKey = 'America/Los_Angeles',
-            UserName = 'standarduser@dreamhouse-testorg.com'
+            Username = 'standarduser@dreamhouse-testorg.com'
         );
         insert testUser;
         PermissionSet ps = [
@@ -71,7 +71,7 @@ private class TestPropertyController {
         }
     }
 
-    @isTest
+    @IsTest
     static void testGetPicturesNoResults() {
         Property__c property = new Property__c(Name = 'Name');
         insert property;
@@ -85,16 +85,16 @@ private class TestPropertyController {
         Assert.isNull(items);
     }
 
-    @isTest
+    @IsTest
     static void testGetPicturesWithResults() {
         Property__c property = new Property__c(Name = 'Name');
         insert property;
 
         // Insert mock picture
-        ContentVersion picture = new Contentversion();
+        ContentVersion picture = new ContentVersion();
         picture.Title = MOCK_PICTURE_NAME;
         picture.PathOnClient = 'picture.png';
-        picture.Versiondata = EncodingUtil.base64Decode('MockValue');
+        picture.VersionData = EncodingUtil.base64Decode('MockValue');
         insert picture;
 
         // Link picture to property record
@@ -106,7 +106,7 @@ private class TestPropertyController {
         ContentDocumentLink link = new ContentDocumentLink();
         link.LinkedEntityId = property.Id;
         link.ContentDocumentId = documents[0].Id;
-        link.shareType = 'V';
+        link.ShareType = 'V';
         insert link;
 
         Test.startTest();

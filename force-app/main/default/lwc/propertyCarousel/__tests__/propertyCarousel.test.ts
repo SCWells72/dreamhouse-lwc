@@ -7,6 +7,9 @@ import getPictures from '@salesforce/apex/PropertyController.getPictures';
 import createFile from '@salesforce/apex/FileUtilities.createFile';
 import {ApexTestWireAdapter, LdsTestWireAdapter} from "@salesforce/wire-service-jest-util";
 import LightningInput from "lightning/input";
+import ErrorPanel from 'c/errorPanel';
+import LightningCarouselImage from 'lightning/carouselImage';
+import LightningCarousel from 'lightning/carousel';
 
 // Realistic data with multiple records
 import mockGetPictures from "./data/getPictures.json";
@@ -57,7 +60,7 @@ describe('c-property-carousel', () => {
 
     describe('@wire data', () => {
         it('renders carousel with pictures when property and pictures returned', async () => {
-            const element = createElement('c-property-carousel', {
+            const element = createElement<PropertyCarousel>('c-property-carousel', {
                 is: PropertyCarousel
             });
             document.body.appendChild(element);
@@ -72,16 +75,16 @@ describe('c-property-carousel', () => {
             await flushPromises();
 
             const carouselEl =
-                element.shadowRoot.querySelector('lightning-carousel');
+                element.shadowRoot.querySelector<LightningCarousel>('lightning-carousel');
             expect(carouselEl).not.toBeNull();
-            const carouselImageEls = element.shadowRoot.querySelectorAll(
+            const carouselImageEls = element.shadowRoot.querySelectorAll<LightningCarouselImage>(
                 'lightning-carousel-image'
             );
             expect(carouselImageEls.length).toBe(mockGetPictures.length);
         });
 
         it('renders no pictures message when property but no pictures returned', async () => {
-            const element = createElement('c-property-carousel', {
+            const element = createElement<PropertyCarousel>('c-property-carousel', {
                 is: PropertyCarousel
             });
             document.body.appendChild(element);
@@ -95,7 +98,7 @@ describe('c-property-carousel', () => {
             // Wait for any asynchronous DOM updates
             await flushPromises();
 
-            const pEl = element.shadowRoot.querySelector(
+            const pEl = element.shadowRoot.querySelector<HTMLParagraphElement>(
                 'p.slds-text-align_center'
             );
             expect(pEl).not.toBeNull();
@@ -105,7 +108,7 @@ describe('c-property-carousel', () => {
         });
 
         it('renders error when getProperty returns error', async () => {
-            const element = createElement('c-property-carousel', {
+            const element = createElement<PropertyCarousel>('c-property-carousel', {
                 is: PropertyCarousel
             });
             document.body.appendChild(element);
@@ -117,12 +120,12 @@ describe('c-property-carousel', () => {
             await flushPromises();
 
             const errorPanelEl =
-                element.shadowRoot.querySelector('c-error-panel');
+                element.shadowRoot.querySelector<ErrorPanel>('c-error-panel');
             expect(errorPanelEl).not.toBeNull();
         });
 
         it('renders error when getPictures returns error', async () => {
-            const element = createElement('c-property-carousel', {
+            const element = createElement<PropertyCarousel>('c-property-carousel', {
                 is: PropertyCarousel
             });
             document.body.appendChild(element);
@@ -137,13 +140,13 @@ describe('c-property-carousel', () => {
             await flushPromises();
 
             const errorPanelEl =
-                element.shadowRoot.querySelector('c-error-panel');
+                element.shadowRoot.querySelector<ErrorPanel>('c-error-panel');
             expect(errorPanelEl).not.toBeNull();
         });
     });
     describe('lightning-input interactions', () => {
         it('calls processImage when a picture is uploaded', async () => {
-            const element = createElement('c-property-carousel', {
+            const element = createElement<PropertyCarousel>('c-property-carousel', {
                 is: PropertyCarousel
             });
             document.body.appendChild(element);

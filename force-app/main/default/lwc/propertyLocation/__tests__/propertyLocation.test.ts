@@ -9,6 +9,7 @@ import {LdsTestWireAdapter} from "@salesforce/wire-service-jest-util";
 // Realistic property record
 import mockPropertyRecord from "./data/getRecord.json";
 import LightningFormattedNumber from "lightning/formattedNumber";
+import ErrorPanel from 'c/errorPanel';
 
 const checkDistanceCalculation = (element: PropertyLocation) => {
     const latitudeEl = element.shadowRoot.querySelector<HTMLDivElement>(
@@ -47,7 +48,7 @@ describe('c-property-location', () => {
     }
 
     it('renders an error panel when no location services are available', async () => {
-        const element = createElement('c-property-location', {
+        const element = createElement<PropertyLocation>('c-property-location', {
             is: PropertyLocation
         });
 
@@ -56,12 +57,12 @@ describe('c-property-location', () => {
         // Wait for any asynchronous DOM updates
         await flushPromises();
 
-        const panelEl = element.shadowRoot.querySelector('c-error-panel');
+        const panelEl = element.shadowRoot.querySelector<ErrorPanel>('c-error-panel');
         expect(panelEl).not.toBeNull();
     });
 
     it('renders an error panel when getRecord returns an error', async () => {
-        const element = createElement('c-property-location', {
+        const element = createElement<PropertyLocation>('c-property-location', {
             is: PropertyLocation
         });
 
@@ -73,7 +74,7 @@ describe('c-property-location', () => {
         // Wait for any asynchronous DOM updates
         await flushPromises();
 
-        const panelEl = element.shadowRoot.querySelector('c-error-panel');
+        const panelEl = element.shadowRoot.querySelector<ErrorPanel>('c-error-panel');
         expect(panelEl).not.toBeNull();
     });
 

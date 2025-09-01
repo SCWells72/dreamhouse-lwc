@@ -47,7 +47,7 @@ describe('c-sample-data-importer', () => {
         (<jest.MockInstance<any, any>><unknown>importSampleData).mockResolvedValue(APEX_OPERATION_SUCCESS);
 
         // Create initial element
-        const element = createElement('c-sample-data-importer', {
+        const element = createElement<SampleDataImporter>('c-sample-data-importer', {
             is: SampleDataImporter
         });
         document.body.appendChild(element);
@@ -78,7 +78,7 @@ describe('c-sample-data-importer', () => {
         (<jest.MockInstance<any, any>><unknown>importSampleData).mockRejectedValue(APEX_OPERATION_ERROR);
 
         // Create initial element
-        const element = createElement('c-sample-data-importer', {
+        const element = createElement<SampleDataImporter>('c-sample-data-importer', {
             is: SampleDataImporter
         });
         document.body.appendChild(element);
@@ -107,7 +107,7 @@ describe('c-sample-data-importer', () => {
     });
 
     it('is accessible', async () => {
-        const element = createElement('c-sample-data-importer', {
+        const element = createElement<SampleDataImporter>('c-sample-data-importer', {
             is: SampleDataImporter
         });
 

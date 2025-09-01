@@ -21,12 +21,12 @@ describe('c-error-panel', () => {
         const MESSAGE = 'Error retrieving data';
 
         // Create initial element
-        const element = createElement('c-error-panel', {
+        const element = createElement<ErrorPanel>('c-error-panel', {
             is: ErrorPanel
         });
         document.body.appendChild(element);
 
-        const messageEl = element.shadowRoot.querySelector('h3');
+        const messageEl = element.shadowRoot.querySelector<HTMLHeadingElement>('h3');
         expect(messageEl.textContent).toBe(MESSAGE);
     });
 
@@ -40,18 +40,18 @@ describe('c-error-panel', () => {
         element.friendlyMessage = MESSAGE;
         document.body.appendChild(element);
 
-        const messageEl = element.shadowRoot.querySelector('h3');
+        const messageEl = element.shadowRoot.querySelector<HTMLHeadingElement>('h3');
         expect(messageEl.textContent).toBe(MESSAGE);
     });
 
     it('displays no error details when no errors are passed as parameters', () => {
         // Create initial element
-        const element = createElement('c-error-panel', {
+        const element = createElement<ErrorPanel>('c-error-panel', {
             is: ErrorPanel
         });
         document.body.appendChild(element);
 
-        const anchorEl = element.shadowRoot.querySelector('a');
+        const anchorEl = element.shadowRoot.querySelector<HTMLAnchorElement>('a');
         expect(anchorEl).toBeNull();
     });
 
@@ -71,13 +71,13 @@ describe('c-error-panel', () => {
         document.body.appendChild(element);
 
         // Click link to show details
-        element.shadowRoot.querySelector('a').click();
+        (element.shadowRoot.querySelector<HTMLAnchorElement>('a')).click();
 
         // Wait for any asynchronous DOM updates
         await flushPromises();
 
         const messageTexts = Array.from(
-            element.shadowRoot.querySelectorAll('p')
+            element.shadowRoot.querySelectorAll<HTMLParagraphElement>('p')
         ).map((errorMessage) => (errorMessage.textContent));
         expect(messageTexts).toEqual(ERROR_MESSAGES_OUTPUT);
     });
@@ -97,7 +97,7 @@ describe('c-error-panel', () => {
         document.body.appendChild(element);
 
         // Click link to show details
-        element.shadowRoot.querySelector('a').click();
+        (element.shadowRoot.querySelector<HTMLAnchorElement>('a')).click();
 
         // Wait for any asynchronous DOM updates
         await flushPromises();

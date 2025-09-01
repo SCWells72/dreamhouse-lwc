@@ -1,6 +1,6 @@
-@isTest
+@IsTest
 private class TestSampleDataController {
-    @isTest
+    @IsTest
     static void importSampleData() {
         Test.startTest();
         SampleDataController.importSampleData();

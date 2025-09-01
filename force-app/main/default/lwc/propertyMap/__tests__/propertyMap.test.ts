@@ -5,6 +5,7 @@ import PropertyMap from 'c/propertyMap';
 import { getRecord } from 'lightning/uiRecordApi';
 import {LdsTestWireAdapter} from "@salesforce/wire-service-jest-util";
 import LightningMap from "lightning/map";
+import ErrorPanel from 'c/errorPanel';
 
 // Realistic property record
 import mockPropertyRecord from "./data/propertyRecord.json";
@@ -43,7 +44,7 @@ describe('c-property-map', () => {
     }
 
     it('renders an error panel when no property is selected', async () => {
-        const element = createElement('c-property-map', {
+        const element = createElement<PropertyMap>('c-property-map', {
             is: PropertyMap
         });
 
@@ -52,12 +53,12 @@ describe('c-property-map', () => {
         // Wait for any asynchronous DOM updates
         await flushPromises();
 
-        const panelEl = element.shadowRoot.querySelector('c-error-panel');
+        const panelEl = element.shadowRoot.querySelector<ErrorPanel>('c-error-panel');
         expect(panelEl).not.toBeNull();
     });
 
     it('renders a map when a property is selected', async () => {
-        const element = createElement('c-property-map', {
+        const element = createElement<PropertyMap>('c-property-map', {
             is: PropertyMap
         });
         document.body.appendChild(element);
@@ -74,7 +75,7 @@ describe('c-property-map', () => {
     });
 
     it('is accessible when property is selected', async () => {
-        const element = createElement('c-property-map', {
+        const element = createElement<PropertyMap>('c-property-map', {
             is: PropertyMap
         });
 
@@ -90,7 +91,7 @@ describe('c-property-map', () => {
     });
 
     it('is accessible when property is not selected', async () => {
-        const element = createElement('c-property-map', {
+        const element = createElement<PropertyMap>('c-property-map', {
             is: PropertyMap
         });
 

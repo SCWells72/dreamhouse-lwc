@@ -17,7 +17,7 @@ public with sharing class SampleDataController {
             FROM StaticResource
             WHERE Name = 'sample_data_brokers'
         ];
-        String brokersJSON = brokersResource.body.toString();
+        String brokersJSON = brokersResource.Body.toString();
         List<Broker__c> brokers = (List<Broker__c>) JSON.deserialize(
             brokersJSON,
             List<Broker__c>.class
@@ -31,7 +31,7 @@ public with sharing class SampleDataController {
             FROM StaticResource
             WHERE Name = 'sample_data_properties'
         ];
-        String propertiesJSON = propertiesResource.body.toString();
+        String propertiesJSON = propertiesResource.Body.toString();
         List<Property__c> properties = (List<Property__c>) JSON.deserialize(
             propertiesJSON,
             List<Property__c>.class
@@ -46,7 +46,7 @@ public with sharing class SampleDataController {
             FROM StaticResource
             WHERE Name = 'sample_data_contacts'
         ];
-        String contactsJSON = contactsResource.body.toString();
+        String contactsJSON = contactsResource.Body.toString();
         List<Contact> contacts = (List<Contact>) JSON.deserialize(
             contactsJSON,
             List<Contact>.class
@@ -57,7 +57,7 @@ public with sharing class SampleDataController {
     private static void randomizeDateListed(List<Property__c> properties) {
         for (Property__c property : properties) {
             property.Date_Listed__c =
-                System.today() - Integer.valueof((Math.random() * 90));
+                System.today() - Integer.valueOf((Math.random() * 90));
         }
     }
 }

@@ -1,7 +1,7 @@
 public with sharing class GeocodingService {
     private static final String BASE_URL = 'https://nominatim.openstreetmap.org/search?format=json';
 
-    @InvocableMethod(callout=true label='Geocode address')
+    @InvocableMethod(Callout=true Label='Geocode address')
     public static List<Coordinates> geocodeAddresses(
         List<GeocodingAddress> addresses
     ) {
@@ -33,7 +33,7 @@ public with sharing class GeocodingService {
                 request.setMethod('GET');
                 request.setHeader(
                     'http-referer',
-                    URL.getOrgDomainUrl().toExternalForm()
+                    Url.getOrgDomainUrl().toExternalForm()
                 );
                 HttpResponse response = http.send(request);
                 if (response.getStatusCode() == 200) {

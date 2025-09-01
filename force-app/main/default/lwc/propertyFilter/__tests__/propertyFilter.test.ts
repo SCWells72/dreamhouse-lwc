@@ -39,14 +39,14 @@ describe('c-property-filter', () => {
 
     it('fires the change event on new search input', async () => {
         // Create initial element
-        const element = createElement('c-property-filter', {
+        const element = createElement<PropertyFilter>('c-property-filter', {
             is: PropertyFilter
         });
         document.body.appendChild(element);
 
         // Query lightning-input element
         const lightningInputEl =
-            element.shadowRoot.querySelector('lightning-input');
+            element.shadowRoot.querySelector<LightningInput>('lightning-input');
         lightningInputEl.dispatchEvent(
             new CustomEvent('change', {
                 detail: {
@@ -78,14 +78,14 @@ describe('c-property-filter', () => {
 
     it('fires the change event on Max Price slider input', async () => {
         // Create initial element
-        const element = createElement('c-property-filter', {
+        const element = createElement<PropertyFilter>('c-property-filter', {
             is: PropertyFilter
         });
         document.body.appendChild(element);
 
         // Query lightning-input element
         const lightningSliderEl =
-            element.shadowRoot.querySelector('lightning-slider');
+            element.shadowRoot.querySelector<LightningSlider>('lightning-slider');
         lightningSliderEl.dispatchEvent(
             new CustomEvent('change', {
                 detail: {
@@ -117,14 +117,14 @@ describe('c-property-filter', () => {
 
     it('fires the change event on Bedrooms slider input', async () => {
         // Create initial element
-        const element = createElement('c-property-filter', {
+        const element = createElement<PropertyFilter>('c-property-filter', {
             is: PropertyFilter
         });
         document.body.appendChild(element);
 
         // Query lightning-input element
         const lightningSliderEl =
-            element.shadowRoot.querySelectorAll('lightning-slider')[1];
+            (element.shadowRoot.querySelectorAll<LightningSlider>('lightning-slider'))[1];
         lightningSliderEl.dispatchEvent(
             new CustomEvent('change', {
                 detail: {
@@ -156,14 +156,14 @@ describe('c-property-filter', () => {
 
     it('fires the change event on Bathrooms slider input', async () => {
         // Create initial element
-        const element = createElement('c-property-filter', {
+        const element = createElement<PropertyFilter>('c-property-filter', {
             is: PropertyFilter
         });
         document.body.appendChild(element);
 
         // Query lightning-input element
         const lightningSliderEl =
-            element.shadowRoot.querySelectorAll('lightning-slider')[2];
+            (element.shadowRoot.querySelectorAll<LightningSlider>('lightning-slider'))[2];
         lightningSliderEl.dispatchEvent(
             new CustomEvent('change', {
                 detail: {
@@ -195,7 +195,7 @@ describe('c-property-filter', () => {
 
     it('fires change event when reset button is clicked', async () => {
         // Create initial element
-        const element = createElement('c-property-filter', {
+        const element = createElement<PropertyFilter>('c-property-filter', {
             is: PropertyFilter
         });
         document.body.appendChild(element);
@@ -220,7 +220,7 @@ describe('c-property-filter', () => {
 
     it('resets to default values when reset button is clicked', async () => {
         // Create initial element
-        const element = createElement('c-property-filter', {
+        const element = createElement<PropertyFilter>('c-property-filter', {
             is: PropertyFilter
         });
         document.body.appendChild(element);

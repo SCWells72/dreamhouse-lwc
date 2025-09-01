@@ -48,7 +48,7 @@ describe('c-barcode-scanner-example', () => {
 
         // Mount `Scan QR Code` button and trigger scan of property record ID
         const elementScannerDirections =
-            elementBarcodeScanner.shadowRoot.querySelector(
+            elementBarcodeScanner.shadowRoot.querySelector<HTMLDivElement>(
                 '[data-test="scanner-directions"]'
             );
 
@@ -68,7 +68,7 @@ describe('c-barcode-scanner-example', () => {
 
         // Mount `Scan QR Code` button and trigger scan of property record ID
         const elementScanQRCodeButton =
-            elementBarcodeScanner.shadowRoot.querySelector('lightning-button');
+            elementBarcodeScanner.shadowRoot.querySelector<LightningButton>('lightning-button');
 
         expect(elementScanQRCodeButton).not.toBeNull();
     });

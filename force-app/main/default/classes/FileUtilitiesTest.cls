@@ -1,6 +1,6 @@
-@isTest
+@IsTest
 private with sharing class FileUtilitiesTest {
-    @isTest
+    @IsTest
     static void createFileSucceedsWhenCorrectInput() {
         // GIVEN
         Property__c property = new Property__c();
@@ -21,7 +21,7 @@ private with sharing class FileUtilitiesTest {
         Assert.isNotNull(contentDocumentLinkId);
     }
 
-    @isTest
+    @IsTest
     static void createFileFailsWhenIncorrectRecordId() {
         // GIVEN
         String base64Data = '/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAAAAAAAAAAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb';
@@ -30,6 +30,7 @@ private with sharing class FileUtilitiesTest {
 
         try {
             // WHEN
+            //noinspection ApexUnusedDeclaration
             String contentDocumentLinkId = FileUtilities.createFile(
                 base64Data,
                 fileName,
@@ -42,7 +43,7 @@ private with sharing class FileUtilitiesTest {
         }
     }
 
-    @isTest
+    @IsTest
     static void createFileFailsWhenIncorrectBase64Data() {
         // GIVEN
         Property__c property = new Property__c();
@@ -54,6 +55,7 @@ private with sharing class FileUtilitiesTest {
 
         try {
             // WHEN
+            //noinspection ApexUnusedDeclaration
             String contentDocumentLinkId = FileUtilities.createFile(
                 base64Data,
                 fileName,
@@ -66,7 +68,7 @@ private with sharing class FileUtilitiesTest {
         }
     }
 
-    @isTest
+    @IsTest
     static void createFileFailsWhenIncorrectFilename() {
         // GIVEN
         Property__c property = new Property__c();
@@ -78,6 +80,7 @@ private with sharing class FileUtilitiesTest {
 
         try {
             // WHEN
+            //noinspection ApexUnusedDeclaration
             String contentDocumentLinkId = FileUtilities.createFile(
                 base64Data,
                 fileName,

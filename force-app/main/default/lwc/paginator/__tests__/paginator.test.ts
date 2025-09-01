@@ -3,6 +3,7 @@
 import { createElement } from 'lwc';
 import Paginator from 'c/paginator';
 import LightningButtonIcon from "lightning/buttonIcon";
+import LightningLayoutItem from 'lightning/layoutItem';
 
 describe('c-paginator', () => {
     afterEach(() => {
@@ -48,7 +49,7 @@ describe('c-paginator', () => {
 
         // Validate previous button is hidden
         const prevButtonEl =
-            element.shadowRoot.querySelector('.left-button-icon');
+            element.shadowRoot.querySelector<LightningButtonIcon>('.left-button-icon');
         expect(prevButtonEl).toBeNull();
     });
 
@@ -82,7 +83,7 @@ describe('c-paginator', () => {
 
         // Validate next button is hidden
         const nextButtonEl =
-            element.shadowRoot.querySelector('.right-button-icon');
+            element.shadowRoot.querySelector<LightningButtonIcon>('.right-button-icon');
         expect(nextButtonEl).toBeNull();
     });
 
@@ -99,7 +100,7 @@ describe('c-paginator', () => {
 
         // Query div for validating the display message on component init
         const lightningLayoutItemEl =
-            element.shadowRoot.querySelector('.nav-info');
+            element.shadowRoot.querySelector<LightningLayoutItem>('.nav-info');
         //Check for the 0 items message
         expect(lightningLayoutItemEl).not.toBeNull();
         expect(lightningLayoutItemEl.textContent).toBe('0 items • page 0 of 0');
@@ -119,7 +120,7 @@ describe('c-paginator', () => {
 
         // Query div for validating the display message on component init
         const lightningLayoutItemEl =
-            element.shadowRoot.querySelector('.nav-info');
+            element.shadowRoot.querySelector<LightningLayoutItem>('.nav-info');
 
         // Wait for any asynchronous DOM updates
         await flushPromises();
@@ -147,7 +148,7 @@ describe('c-paginator', () => {
         await flushPromises();
 
         // Check for next page button
-        const btnNextEl = element.shadowRoot.querySelector(
+        const btnNextEl = element.shadowRoot.querySelector<LightningButtonIcon>(
             '.nav-next lightning-button-icon'
         );
         expect(btnNextEl).toBeNull();

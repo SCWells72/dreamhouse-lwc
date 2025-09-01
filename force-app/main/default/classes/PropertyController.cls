@@ -12,7 +12,7 @@ public with sharing class PropertyController {
      * @param pageNumber Page number
      * @return PagedResult object holding the paged and filtered list of properties
      */
-    @AuraEnabled(cacheable=true scope='global')
+    @AuraEnabled(Cacheable=true Scope='global')
     public static PagedResult getPagedPropertyList(
         String searchKey,
         Decimal maxPrice,
@@ -80,7 +80,7 @@ public with sharing class PropertyController {
      * @param propertyId Property Id
      * @return List of ContentVersion holding the pictures
      */
-    @AuraEnabled(cacheable=true scope='global')
+    @AuraEnabled(Cacheable=true Scope='global')
     public static List<ContentVersion> getPictures(Id propertyId) {
         List<ContentDocumentLink> links = [
             SELECT Id, LinkedEntityId, ContentDocument.Title

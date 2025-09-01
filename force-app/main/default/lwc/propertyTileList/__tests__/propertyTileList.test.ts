@@ -7,6 +7,8 @@ import { publish, subscribe, MessageContext } from 'lightning/messageService';
 import FILTERSCHANGEMC from '@salesforce/messageChannel/FiltersChange__c';
 import PROPERTYSELECTEDMC from '@salesforce/messageChannel/PropertySelected__c';
 import {ApexTestWireAdapter} from "@salesforce/wire-service-jest-util";
+import PropertyTile from 'c/propertyTile';
+import ErrorPanel from 'c/errorPanel';
 
 // Realistic data with multiple records
 import mockGetPagedPropertyList from "./data/getPagedPropertyList.json";
@@ -43,7 +45,7 @@ describe('c-property-tile-list', () => {
 
     describe('@wire data', () => {
         it('renders properties when data returned', async () => {
-            const element = createElement('c-property-tile-list', {
+            const element = createElement<PropertyTileList>('c-property-tile-list', {
                 is: PropertyTileList
             });
             document.body.appendChild(element);
@@ -55,14 +57,14 @@ describe('c-property-tile-list', () => {
             await flushPromises();
 
             const propertyTileEls =
-                element.shadowRoot.querySelectorAll('c-property-tile');
+                element.shadowRoot.querySelectorAll<PropertyTile>('c-property-tile');
             expect(propertyTileEls.length).toBe(
                 mockGetPagedPropertyList.records.length
             );
         });
 
         it('renders error panel when error returned', async () => {
-            const element = createElement('c-property-tile-list', {
+            const element = createElement<PropertyTileList>('c-property-tile-list', {
                 is: PropertyTileList
             });
             document.body.appendChild(element);
@@ -74,13 +76,13 @@ describe('c-property-tile-list', () => {
             await flushPromises();
 
             const errorPanelEl =
-                element.shadowRoot.querySelector('c-error-panel');
+                element.shadowRoot.querySelector<ErrorPanel>('c-error-panel');
             expect(errorPanelEl).not.toBeNull();
         });
     });
 
     it('registers propertyFilters subscriber during the component lifecycle', () => {
-        const element = createElement('c-property-tile-list', {
+        const element = createElement<PropertyTileList>('c-property-tile-list', {
             is: PropertyTileList
         });
         document.body.appendChild(element);
@@ -91,7 +93,7 @@ describe('c-property-tile-list', () => {
     });
 
     it('invokes getPagedPropertyList with the propertyFilters message payload value', async () => {
-        const element = createElement('c-property-tile-list', {
+        const element = createElement<PropertyTileList>('c-property-tile-list', {
             is: PropertyTileList
         });
         document.body.appendChild(element);
@@ -119,7 +121,7 @@ describe('c-property-tile-list', () => {
     });
 
     it('sends propertySelected event when c-property-tile selected', async () => {
-        const element = createElement('c-property-tile-list', {
+        const element = createElement<PropertyTileList>('c-property-tile-list', {
             is: PropertyTileList
         });
         document.body.appendChild(element);
@@ -129,7 +131,7 @@ describe('c-property-tile-list', () => {
         await flushPromises();
 
         const propertyTile =
-            element.shadowRoot.querySelector('c-property-tile');
+            element.shadowRoot.querySelector<PropertyTile>('c-property-tile');
         propertyTile.dispatchEvent(new CustomEvent('selected'));
         expect(publish).toHaveBeenCalledWith(undefined, PROPERTYSELECTEDMC, {
             propertyId: null

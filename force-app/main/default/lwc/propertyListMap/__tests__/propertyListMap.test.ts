@@ -87,7 +87,7 @@ describe('c-property-list-map', () => {
 
     it('registers propertyFilters subscriber during the component lifecycle', () => {
         // Create component
-        const element = createElement('c-property-list-map', {
+        const element = createElement<PropertyListMap>('c-property-list-map', {
             is: PropertyListMap
         });
         document.body.appendChild(element);
@@ -99,7 +99,7 @@ describe('c-property-list-map', () => {
 
     it('loads the leaflet javascript and css static resources', () => {
         // Create component
-        const element = createElement('c-property-list-map', {
+        const element = createElement<PropertyListMap>('c-property-list-map', {
             is: PropertyListMap
         });
         document.body.appendChild(element);
@@ -118,7 +118,7 @@ describe('c-property-list-map', () => {
         (<jest.MockInstance<any, any>><unknown>loadScript).mockRejectedValue(LOAD_SCRIPT_ERROR);
 
         // Create component
-        const element = createElement('c-property-list-map', {
+        const element = createElement<PropertyListMap>('c-property-list-map', {
             is: PropertyListMap
         });
         document.body.appendChild(element);
@@ -143,7 +143,7 @@ describe('c-property-list-map', () => {
 
     it('fires a toast event when properties cannot be retrieved', async () => {
         // Create component
-        const element = createElement('c-property-list-map', {
+        const element = createElement<PropertyListMap>('c-property-list-map', {
             is: PropertyListMap
         });
         document.body.appendChild(element);
@@ -194,7 +194,7 @@ describe('c-property-list-map', () => {
         global.L = leafletMock;
 
         // Create component
-        const element = createElement('c-property-list-map', {
+        const element = createElement<PropertyListMap>('c-property-list-map', {
             is: PropertyListMap
         });
         document.body.appendChild(element);

@@ -33,12 +33,12 @@ describe('c-property-tile', () => {
         element.property = PROPERTY;
         document.body.appendChild(element);
 
-        const headerEl = element.shadowRoot.querySelector('.truncate');
+        const headerEl = element.shadowRoot.querySelector<HTMLHeadingElement>('.truncate');
         expect(headerEl.textContent).toBe(
             `${PROPERTY.City__c} • ${PROPERTY.Name}`
         );
 
-        const paragraphEl = element.shadowRoot.querySelector('p');
+        const paragraphEl = element.shadowRoot.querySelector<HTMLParagraphElement>('p');
         expect(paragraphEl.textContent).toBe(
             `Beds: ${PROPERTY.Beds__c} - Baths: ${PROPERTY.Baths__c}`
         );
@@ -73,7 +73,7 @@ describe('c-property-tile', () => {
         const handler = jest.fn();
         element.addEventListener('selected', handler);
 
-        const anchorEl = element.shadowRoot.querySelector('a');
+        const anchorEl = element.shadowRoot.querySelector<HTMLAnchorElement>('a');
         anchorEl.click();
 
         // Wait for any asynchronous DOM updates

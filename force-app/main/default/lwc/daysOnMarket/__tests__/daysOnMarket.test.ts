@@ -40,7 +40,7 @@ describe('c-days-on-market', () => {
 
     it('renders error if no property is selected', () => {
         // Create initial element
-        const element = createElement('c-days-on-market', {
+        const element = createElement<DaysOnMarket>('c-days-on-market', {
             is: DaysOnMarket
         });
         document.body.appendChild(element);
@@ -54,7 +54,7 @@ describe('c-days-on-market', () => {
 
     it('registers the LMS subscriber during the component lifecycle', () => {
         // Create initial element
-        const element = createElement('c-days-on-market', {
+        const element = createElement<DaysOnMarket>('c-days-on-market', {
             is: DaysOnMarket
         });
         document.body.appendChild(element);
@@ -66,7 +66,7 @@ describe('c-days-on-market', () => {
 
     it('unregisters the LMS subscriber during the component lifecycle', () => {
         // Create initial element
-        const element = createElement('c-days-on-market', {
+        const element = createElement<DaysOnMarket>('c-days-on-market', {
             is: DaysOnMarket
         });
         document.body.appendChild(element);
@@ -78,7 +78,7 @@ describe('c-days-on-market', () => {
 
     it('invokes getRecord with the published message payload value', async () => {
         // Create element
-        const element = createElement('c-days-on-market', {
+        const element = createElement<DaysOnMarket>('c-days-on-market', {
             is: DaysOnMarket
         });
         document.body.appendChild(element);
@@ -105,7 +105,7 @@ describe('c-days-on-market', () => {
             );
             expect(badgeEl).not.toBeNull();
 
-            const daysDivEl = element.shadowRoot.querySelector('div.days');
+            const daysDivEl = element.shadowRoot.querySelector<HTMLDivElement>('div.days');
             expect(daysDivEl.textContent).toBe(
                 getFieldValue(mockGetRecord, DAYS_ON_MARKET_FIELD).toString()
             );
@@ -240,7 +240,7 @@ describe('c-days-on-market', () => {
     });
 
     it('is accessible when no property selected', async () => {
-        const element = createElement('c-days-on-market', {
+        const element = createElement<DaysOnMarket>('c-days-on-market', {
             is: DaysOnMarket
         });
         document.body.appendChild(element);
