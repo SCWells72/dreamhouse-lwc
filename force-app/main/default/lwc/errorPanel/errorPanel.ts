@@ -1,8 +1,6 @@
 import { LightningElement, api } from 'lwc';
 import { reduceErrors } from 'c/ldsUtils';
-// @ts-expect-error Still issues with template imports
 import noDataIllustration from './templates/noDataIllustration.html';
-// @ts-expect-error Still issues with template imports
 import inlineMessage from './templates/inlineMessage.html';
 
 export default class ErrorPanel extends LightningElement {
